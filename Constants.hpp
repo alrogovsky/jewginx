@@ -17,8 +17,8 @@
 // Default parameters
 extern char* ROOT_DIR;
 extern const char* DEFAULT_ROOT_DIR;
-extern const int WORKERS;
-extern const int PORT;
+extern const int WORKERS_COUNT;
+extern const int DEFAULT_PORT;
 extern const int MAX_HTTP_REQUEST;
 
 // HTTP responses

@@ -12,8 +12,8 @@ char* ROOT_DIR = nullptr;
 
 const int MAX_HTTP_REQUEST = 2000;
 
-const int WORKERS = 4;
-const int PORT = 80;
+const int WORKERS_COUNT = 4;
+const int DEFAULT_PORT = 80;
 const char* DEFAULT_ROOT_DIR = "/Users/alex/Desktop";
 
 const char* METHOD_NOT_ALLOWED = "Method Not Allowed";

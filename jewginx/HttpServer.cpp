@@ -22,11 +22,11 @@ void HttpServer::start(int port, int workers){
     struct evconnlistener *listener;
     
     if(!port){
-        port = 8080;
+        port = DEFAULT_PORT;
     }
     
     if(!workers){
-        workers = 0;
+        workers = WORKERS_COUNT;
     }
     
     base = event_base_new();
@@ -90,7 +90,7 @@ void HttpServer::connectionCallback(struct evconnlistener *listener, int fd, str
     struct bufferevent *bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
     
     bufferevent_setcb(bev, readCallback, writeCallback, eventCallback, NULL);
-    bufferevent_enable(bev, EV_READ|EV_WRITE);
+    bufferevent_enable(bev, EV_PERSIST|EV_TIMEOUT|EV_READ);
 }
 
 void HttpServer::errorCallback(struct evconnlistener *listener, void *ctx)
