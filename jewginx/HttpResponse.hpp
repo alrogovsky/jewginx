@@ -10,10 +10,19 @@
 #define HttpResponse_hpp
 
 #include <stdio.h>
+#include <event2/buffer.h>
+#include "Constants.hpp"
 
 class HttpResponse{
 public:
     HttpResponse(int);
+    evbuffer* makeResponse();
+    const char* getStatusName();
+    void addHeader(const char *name, const char *value);
+    void addHeader(const char *name, int value);
+private:
+    int httpStatus;
+    evbuffer* rawResponse;
 };
 
 #endif /* HttpResponse_hpp */

@@ -26,6 +26,7 @@ private:
     static void errorCallback(struct evconnlistener *listener, void *ctx);
     static void readCallback(struct bufferevent *bev, void *ctx);
     static void eventCallback(struct bufferevent *bev, short events, void *ctx);
+    static void writeCallback(bufferevent *bev, void *ctx);
 
 };
 

@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "HttpServer.hpp"
+#include "Constants.hpp"
 
 int main(int argc, char** argv)
 {
@@ -16,7 +17,7 @@ int main(int argc, char** argv)
     int workers = 0;
     
     int opt = 0;
-    while ( (opt = getopt(argc,argv,"p:")) != -1){
+    while ( (opt = getopt(argc,argv,"p:w:r:")) != -1){
         switch (opt){
             case 'p':
                 port = std::stoi(optarg);
@@ -24,7 +25,14 @@ int main(int argc, char** argv)
             case 'w':
                 workers = std::stoi(optarg);
                 break;
+            case 'r':
+                ROOT_DIR = const_cast<char*>(optarg);
+                break;
         }
+    }
+    
+    if(!ROOT_DIR){
+        ROOT_DIR = const_cast<char*>(DEFAULT_ROOT_DIR);
     }
     
     HttpServer* server = new HttpServer();

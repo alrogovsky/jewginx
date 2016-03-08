@@ -8,6 +8,28 @@
 
 #include "Constants.hpp"
 
+char* ROOT_DIR = nullptr;
+
 const int MAX_HTTP_REQUEST = 2000;
 
-const char* METHOD_NOT_ALLOWED = "Method not allowed";
+const int WORKERS = 4;
+const int PORT = 80;
+const char* DEFAULT_ROOT_DIR = "/Users/alex/Desktop";
+
+const char* METHOD_NOT_ALLOWED = "Method Not Allowed";
+const char* OK = "OK";
+const char* BAD_REQUEST = "Bad Request";
+const char* NOT_FOUND = "Not Found";
+
+std::map<std::string, const char*> EXTENSIONS = {
+    {"no_ext", "text/plain"},
+    {"html", "text/html"},
+    {"css", "text/css"},
+    {"js", "text/javascript"},
+    {"jpg", "image/jpeg"},
+    {"jpeg", "image/jpeg"},
+    {"png", "image/png"},
+    {"gif", "image/gif"},
+    {"swf", "application/x-shockwave-flash"},
+    {"default", "text/plain"}
+};

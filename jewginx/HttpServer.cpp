@@ -26,7 +26,7 @@ void HttpServer::start(int port, int workers){
     }
     
     if(!workers){
-        workers = 2;
+        workers = 0;
     }
     
     base = event_base_new();
@@ -89,7 +89,7 @@ void HttpServer::connectionCallback(struct evconnlistener *listener, int fd, str
     struct event_base *base = evconnlistener_get_base(listener);
     struct bufferevent *bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
     
-    bufferevent_setcb(bev, readCallback, NULL, eventCallback, NULL);
+    bufferevent_setcb(bev, readCallback, writeCallback, eventCallback, NULL);
     bufferevent_enable(bev, EV_READ|EV_WRITE);
 }
 
@@ -112,13 +112,15 @@ void HttpServer::readCallback(struct bufferevent *bev, void *ctx)
     char *rawRequest = (char *)calloc(MAX_HTTP_REQUEST, sizeof(char));
     evbuffer_copyout(input, rawRequest, evbuffer_get_length(input));
     
-//    HttpRequest* request = new HttpRequest(rawRequest);
-//    evbuffer* request->makeResponse();
+    HttpRequest* request = new HttpRequest(rawRequest);
+    evbuffer* response = request->parseHttp();
     
-//    fprintf(stdout, rawRequest);
+    delete request;
+    free(rawRequest);
     
-    /* Copy all the data from the input buffer to the output buffer. */
-    evbuffer_add_buffer(output, input);
+    /* Copy all the data response buffer to the output buffer. */
+    evbuffer_add_buffer(output, response);
+    evbuffer_free(response);
 }
 
 void HttpServer::eventCallback(struct bufferevent *bev, short events, void *ctx)
@@ -129,4 +131,10 @@ void HttpServer::eventCallback(struct bufferevent *bev, short events, void *ctx)
         bufferevent_free(bev);
     }
 }
+
+void HttpServer::writeCallback(bufferevent *bev, void *ctx)
+{
+    bufferevent_free(bev);
+}
+
 

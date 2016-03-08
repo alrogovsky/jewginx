@@ -11,13 +11,14 @@
 
 #include <stdio.h>
 #include <cstring>
+#include <event2/buffer.h>
 #include "HttpResponse.hpp"
 
 class HttpRequest {
 public:
-    HttpRequest(char* rawReq);
-    void makeResponse();
-
+    HttpRequest(char*);
+    evbuffer* parseHttp();
+    static const char* getContentType(char*);
 private:
     char* rawReq;
     
