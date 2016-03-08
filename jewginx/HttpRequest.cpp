@@ -31,7 +31,7 @@ const char* HttpRequest::getContentType(char* extension)
 
 evbuffer* HttpRequest::parseHttp(){
     
-    fprintf(stderr, rawReq);
+//    fprintf(stderr, rawReq);
     
     if (!rawReq){
         fprintf(stdout, "ERROR\n");
@@ -70,12 +70,12 @@ evbuffer* HttpRequest::parseHttp(){
     int fd = open (path, O_RDONLY);
     if(fd < 0) {
         free(path);
-            return (new HttpResponse(404))->makeResponse();
+        return (new HttpResponse(404))->makeResponse();
     }
     
     struct stat stat_;
     fstat (fd, &stat_);
-    
+
     HttpResponse* response = new HttpResponse(200);
     response->addHeader("Content-type", getContentType(extension));
     response->addHeader("Content-Length", static_cast<int>(stat_.st_size));
