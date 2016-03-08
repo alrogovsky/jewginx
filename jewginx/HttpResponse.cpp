@@ -12,6 +12,8 @@ HttpResponse::HttpResponse(int code)
 {
     httpStatus = code;
     rawResponse = evbuffer_new();
+    evbuffer_add_printf(rawResponse, "HTTP/1.1 %d %s\r\n", httpStatus, getStatusName());
+    addHeader("Server", "jewginx/0.1");
 }
 
 const char* HttpResponse::getStatusName()
@@ -41,9 +43,6 @@ void HttpResponse::addHeader(const char *name, int value)
 }
 
 evbuffer* HttpResponse::makeResponse(){
-    evbuffer_add_printf(rawResponse, "HTTP/1.1 %d %s\r\n", httpStatus, getStatusName());
-    addHeader("Server", "jewginx/0.1");
-    
     //form date value
     time_t rawtime;
     struct tm * ptm;
