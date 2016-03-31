@@ -49,7 +49,7 @@ void HttpServer::start(int port, int workers){
         const struct sockaddr *sa, int socklen);
      */
     
-    listener = evconnlistener_new_bind(base, connectionCallback, nullptr, LEV_OPT_CLOSE_ON_FREE|LEV_OPT_REUSEABLE, -1, (struct sockaddr*) &sin, sizeof(sin));
+    listener = evconnlistener_new_bind(base, connectionCallback, nullptr, LEV_OPT_CLOSE_ON_FREE|LEV_OPT_REUSEABLE, 1024, (struct sockaddr*) &sin, sizeof(sin));
     
     if(listener == NULL){
         event_base_free(base);
@@ -57,7 +57,7 @@ void HttpServer::start(int port, int workers){
     }
     
     /* Fork mechanism */
-    for(int i=0; i<workers; i++){
+    for(int i=0; i<workers-1; i++){
         pid_t pid = fork();
         
         if (pid == 0)
@@ -90,7 +90,7 @@ void HttpServer::connectionCallback(struct evconnlistener *listener, int fd, str
     struct bufferevent *bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
     
     bufferevent_setcb(bev, readCallback, writeCallback, eventCallback, NULL);
-    bufferevent_enable(bev, EV_PERSIST|EV_TIMEOUT|EV_READ);
+    bufferevent_enable(bev, EV_READ|EV_PERSIST);
 }
 
 void HttpServer::errorCallback(struct evconnlistener *listener, void *ctx)
@@ -128,6 +128,7 @@ void HttpServer::eventCallback(struct bufferevent *bev, short events, void *ctx)
     if (events & BEV_EVENT_ERROR)
         fprintf(stdout, "Error from bufferevent\n");
     if (events & (BEV_EVENT_EOF | BEV_EVENT_ERROR)) {
+        fprintf(stdout, "freeing\n");
         bufferevent_free(bev);
     }
 }

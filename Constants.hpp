@@ -20,6 +20,7 @@ extern const char* DEFAULT_ROOT_DIR;
 extern const int WORKERS_COUNT;
 extern const int DEFAULT_PORT;
 extern const int MAX_HTTP_REQUEST;
+extern const char* INDEX_FILE;
 
 // HTTP responses
 extern const char* METHOD_NOT_ALLOWED;

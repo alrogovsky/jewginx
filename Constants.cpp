@@ -15,6 +15,7 @@ const int MAX_HTTP_REQUEST = 2000;
 const int WORKERS_COUNT = 4;
 const int DEFAULT_PORT = 80;
 const char* DEFAULT_ROOT_DIR = "/Users/alex/Desktop";
+const char* INDEX_FILE = "/index.html";
 
 const char* METHOD_NOT_ALLOWED = "Method Not Allowed";
 const char* OK = "OK";

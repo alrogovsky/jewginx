@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <unistd.h>
 #include "HttpServer.hpp"
 #include "Constants.hpp"
 

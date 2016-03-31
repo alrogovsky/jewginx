@@ -46,8 +46,8 @@ evbuffer* HttpResponse::makeResponse(){
     //form date value
     time_t rawtime;
     struct tm * ptm;
-    time (&rawtime);
-    ptm = gmtime (&rawtime);
+    time(&rawtime);
+    ptm = gmtime(&rawtime);
     char date[80];
     strftime (date, 80, "%a, %d %b %Y %H:%M:%S %Z", ptm);
     addHeader("Date", date);

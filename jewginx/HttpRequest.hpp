@@ -19,6 +19,7 @@ public:
     HttpRequest(char*);
     evbuffer* parseHttp();
     static const char* getContentType(char*);
+    void urldecode(char *pszDecodedOut, size_t nBufferSize, char *pszEncodedIn);
 private:
     char* rawReq;
     
